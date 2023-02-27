@@ -1,24 +1,37 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import { Libros } from './BooksContext';
+import NavBar from './Components/navBar';
+import BookList from './Components/BooksList';
+import AddBook from './Components/addBook';
+import BookDetails from './Components/bookDetails';
+import {
+  Routes,
+  Route,
+  BrowserRouter
+} from "react-router-dom";
 import './App.css';
 
+
 function App() {
+  const [books, setBooks] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <NavBar/>
+        <div className="App">
+                {/* <Router> */}
+                  <Libros.Provider value={books}>
+                      <Routes>
+                          <Route path='/' element={<BookList/>}/>
+                          <Route path='/addbook' element={<AddBook books={books} setBooks={setBooks}/>}/>
+                          <Route path='/bookdetails/:id' element={<BookDetails/>}/>
+                      </Routes>
+                  </Libros.Provider>
+                {/* </Router>  */}
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 
